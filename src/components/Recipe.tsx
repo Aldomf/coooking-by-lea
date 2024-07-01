@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 interface Recipe {
@@ -8,6 +9,7 @@ interface Recipe {
   imageUrl: string;
   preparation: string;
   category: string;
+  subcategory: string;
   createdAt: string;
 }
 
@@ -36,9 +38,13 @@ const Recipe: React.FC = () => {
   return (
     <div className="flex flex-wrap justify-center">
       {recipes.map((recipe) => (
-        <div key={recipe._id} className="m-4 w-72">
+        <Link
+          key={recipe._id}
+          href={`/recipes/${recipe._id}`}
+          className="m-4 w-72 "
+        >
           <div className="max-w-sm rounded overflow-hidden shadow-lg">
-            <div className="">
+            <div className="relative">
               <Image
                 className="w-full h-96"
                 src={recipe.imageUrl}
@@ -46,27 +52,30 @@ const Recipe: React.FC = () => {
                 width={5000}
                 height={5000}
               />
+              <div className="absolute inset-0 bg-black opacity-0 hover:opacity-30 transition-opacity duration-300" />
             </div>
             <div className="">
               <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2">{recipe.title}</div>
-                <p className="text-gray-700 text-base">
-                  {recipe.preparation
-                    ? recipe.preparation.slice(0, 25)
-                    : "No description"}
-                </p>
+                <div className="font-bold text-xl">{recipe.title}</div>
               </div>
-              <div className="px-6 pt-4 pb-2">
+              <div className="px-6 pb-2">
                 <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
                   {recipe.category}
                 </span>
-                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
+                {recipe.subcategory && (
+                  <span className="inline-block bg-gray-200 rounded-full mt-2 px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
+                    {recipe.subcategory}
+                  </span>
+                )}
+              </div>
+              <div>
+                <span className="flex justify-end rounded-full px-3 py-1 text-sm font-semibold text-gray-400">
                   {new Date(recipe.createdAt).toLocaleDateString()}
                 </span>
               </div>
             </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );

@@ -19,9 +19,9 @@ const Header: React.FC = () => {
             className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1"
             id="mobile-menu-2"
           >
-            <h1 className="text-[46px] border-[#482519] text-[#482519] border-t-2 pt-2">
+            <Link href="/" className="text-[46px] border-[#482519] text-[#482519] border-t-2 pt-2">
               Cooking by Lea
-            </h1>
+            </Link>
           </div>
         </div>
       </nav>

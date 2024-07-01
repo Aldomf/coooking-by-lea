@@ -69,3 +69,15 @@ export async function POST(req: any) {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
+
+export async function GET() {
+  await connectDB();
+
+  try {
+    const recipes = await Recipe.find({});
+    return NextResponse.json(recipes, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching recipes:", error);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  }
+}

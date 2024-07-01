@@ -1,13 +1,16 @@
-"use client"
-import React, { useState } from 'react';
+"use client";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 const CreateRecipeForm = () => {
-  const [title, setTitle] = useState('');
+  const router = useRouter();
+
+  const [title, setTitle] = useState("");
   const [image, setImage] = useState<File | null>(null);
-  const [ingredients, setIngredients] = useState<string[]>(['']);
-  const [preparation, setPreparation] = useState('');
-  const [category, setCategory] = useState('');
-  const [subcategory, setSubcategory] = useState('');
+  const [ingredients, setIngredients] = useState<string[]>([""]);
+  const [preparation, setPreparation] = useState("");
+  const [category, setCategory] = useState("");
+  const [subcategory, setSubcategory] = useState("");
 
   const handleIngredientChange = (index: number, value: string) => {
     const newIngredients = [...ingredients];
@@ -16,7 +19,7 @@ const CreateRecipeForm = () => {
   };
 
   const addIngredient = () => {
-    setIngredients([...ingredients, '']);
+    setIngredients([...ingredients, ""]);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -24,28 +27,31 @@ const CreateRecipeForm = () => {
 
     try {
       const formData = new FormData();
-      formData.append('title', title);
-      if (image) formData.append('image', image);
+      formData.append("title", title);
+      if (image) formData.append("image", image);
       ingredients.forEach((ingredient, index) => {
         formData.append(`ingredients[${index}]`, ingredient);
       });
-      formData.append('preparation', preparation);
-      formData.append('category', category);
-      formData.append('subcategory', subcategory);
+      formData.append("preparation", preparation);
+      formData.append("category", category);
+      formData.append("subcategory", subcategory);
 
-      const response = await fetch('/api/recipes', {
-        method: 'POST',
+      const response = await fetch("/api/recipes", {
+        method: "POST",
         body: formData,
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create recipe');
+        throw new Error("Failed to create recipe");
       }
 
-      console.log('Recipe created successfully!');
-      console.log('Ingredients:', ingredients);
+      router.push("/");
+      router.refresh();
+
+      console.log("Recipe created successfully!");
+      console.log("Ingredients:", ingredients);
     } catch (error) {
-      console.error('Error creating recipe:', error);
+      console.error("Error creating recipe:", error);
     }
   };
 
@@ -61,7 +67,12 @@ const CreateRecipeForm = () => {
       <h2 className="text-2xl font-bold mb-4">Create Recipe</h2>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">Title:</label>
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="title"
+          >
+            Title:
+          </label>
           <input
             id="title"
             type="text"
@@ -74,7 +85,12 @@ const CreateRecipeForm = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">Image:</label>
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="image"
+          >
+            Image:
+          </label>
           <input
             id="image"
             type="file"
@@ -87,7 +103,12 @@ const CreateRecipeForm = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="ingredients">Ingredients:</label>
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="ingredients"
+          >
+            Ingredients:
+          </label>
           {ingredients.map((ingredient, index) => (
             <input
               key={index}
@@ -98,13 +119,22 @@ const CreateRecipeForm = () => {
               required
             />
           ))}
-          <button type="button" onClick={addIngredient} className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+          <button
+            type="button"
+            onClick={addIngredient}
+            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
+          >
             Add Ingredient
           </button>
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="preparation">Preparation:</label>
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="preparation"
+          >
+            Preparation:
+          </label>
           <textarea
             id="preparation"
             name="preparation"
@@ -116,7 +146,12 @@ const CreateRecipeForm = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">Category:</label>
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="category"
+          >
+            Category:
+          </label>
           <input
             id="category"
             type="text"
@@ -129,7 +164,12 @@ const CreateRecipeForm = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="subcategory">Subcategory:</label>
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="subcategory"
+          >
+            Subcategory:
+          </label>
           <input
             id="subcategory"
             type="text"
@@ -140,7 +180,10 @@ const CreateRecipeForm = () => {
           />
         </div>
 
-        <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+        <button
+          type="submit"
+          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
+        >
           Submit
         </button>
       </form>

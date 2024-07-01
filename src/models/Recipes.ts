@@ -8,6 +8,7 @@ interface IRecipe extends Document {
   preparation: string;
   category: string;
   subcategory?: string;
+  isHealthy: boolean;
 }
 
 // Define the schema
@@ -41,6 +42,12 @@ const recipeSchema = new Schema<IRecipe>(
       type: String,
       required: false,
     },
+    isHealthy: {
+      type: Boolean,
+      required: true,
+      default: false,  // Set a default value for the field
+    },
+
   },
   { timestamps: true }
 );

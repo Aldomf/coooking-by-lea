@@ -11,6 +11,7 @@ const CreateRecipeForm = () => {
   const [preparation, setPreparation] = useState("");
   const [category, setCategory] = useState("");
   const [subcategory, setSubcategory] = useState("");
+  const [isHealthy, setIsHealthy] = useState(false); // Add state for isHealthy
 
   const handleIngredientChange = (index: number, value: string) => {
     const newIngredients = [...ingredients];
@@ -35,6 +36,12 @@ const CreateRecipeForm = () => {
       formData.append("preparation", preparation);
       formData.append("category", category);
       formData.append("subcategory", subcategory);
+      formData.append("isHealthy", isHealthy.toString()); // Include isHealthy
+
+      // Log the formData entries to see what is being appended
+    formData.forEach((value, key) => {
+      console.log(key, value);
+    });
 
       const response = await fetch("/api/recipes", {
         method: "POST",
@@ -49,7 +56,6 @@ const CreateRecipeForm = () => {
       router.refresh();
 
       console.log("Recipe created successfully!");
-      console.log("Ingredients:", ingredients);
     } catch (error) {
       console.error("Error creating recipe:", error);
     }
@@ -141,6 +147,7 @@ const CreateRecipeForm = () => {
             value={preparation}
             onChange={(e) => setPreparation(e.target.value)}
             className="border border-gray-300 px-3 py-2 rounded-lg w-full"
+            rows={15}
             required
           ></textarea>
         </div>
@@ -178,6 +185,22 @@ const CreateRecipeForm = () => {
             onChange={(e) => setSubcategory(e.target.value)}
             className="border border-gray-300 px-3 py-2 rounded-lg w-full"
           />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Is Healthy:
+          </label>
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              name="isHealthy"
+              checked={isHealthy}
+              onChange={(e) => setIsHealthy(e.target.checked)}
+              className="mr-2 leading-tight"
+            />
+            <span className="text-sm">Check if the recipe is healthy</span>
+          </div>
         </div>
 
         <button

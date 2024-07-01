@@ -25,8 +25,10 @@ export async function POST(req: any) {
     const preparation = formData.get("preparation") as string;
     const category = formData.get("category") as string;
     const subcategory = formData.get("subcategory") as string;
+    const isHealthy = formData.get("isHealthy") === "true";
 
     console.log("Ingredients:", ingredients);
+    console.log("isHealthy:", isHealthy);
 
     if (!imageFile) {
       return NextResponse.json(
@@ -60,6 +62,7 @@ export async function POST(req: any) {
       preparation,
       category,
       subcategory,
+      isHealthy,
     });
 
     const savedRecipe = await newRecipe.save();

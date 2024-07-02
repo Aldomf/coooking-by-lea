@@ -54,8 +54,12 @@ const CreateRecipeForm = () => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        setErrorMessage(errorData.message || "Failed to create recipe");
+        if (response.status === 400) {
+          const errorData = await response.json();
+          setErrorMessage(errorData.error || "Failed to create recipe");
+        } else {
+          setErrorMessage("An unexpected error occurred");
+        }
         window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top on error
         return;
       }

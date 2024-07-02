@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,9 +21,31 @@ const OneRecipe: React.FC = () => {
   const params = useParams<{ id: string }>();
   const recipeId = params.id;
 
+  const router = useRouter();
+
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const deleteRecipe = async (recipeId: string) => {
+    try {
+      const response = await fetch(`/api/recipes/${recipeId}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        console.log("Recipe deleted successfully");
+        // Optionally refresh the recipes list or navigate away
+        router.push("/");
+        router.refresh();
+      } else {
+        const errorData = await response.json();
+        console.error("Failed to delete recipe:", errorData.error);
+      }
+    } catch (error) {
+      console.error("Error deleting recipe:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -95,12 +117,15 @@ const OneRecipe: React.FC = () => {
                 Created at: {new Date(recipe.createdAt).toLocaleDateString()}
               </p>
               <div className="flex items-center justify-between w-28">
-                <Link href={`/admin/update/${recipeId}`} className="text-3xl text-blue-600 hover:text-blue-800">
+                <Link
+                  href={`/admin/update/${recipeId}`}
+                  className="text-3xl text-blue-600 hover:text-blue-800"
+                >
                   <BsPencilSquare />
                 </Link>
-                <Link href="">
-                  <BsTrash3 className="text-3xl text-red-600 hover:text-red-800"/>
-                </Link>
+                <button onClick={() => deleteRecipe(recipeId)}>
+                  <BsTrash3 className="text-3xl text-red-600 hover:text-red-800" />
+                </button>
               </div>
             </div>
           </>

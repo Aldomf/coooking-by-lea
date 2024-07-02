@@ -14,6 +14,16 @@ export async function POST(req: any) {
     const formData = await req.formData();
 
     const title = formData.get("title") as string;
+
+    const existingRecipe = await Recipe.findOne({ title });
+
+    if (existingRecipe) {
+      return NextResponse.json(
+        { error: "A recipe with this title already exists" },
+        { status: 400 }
+      );
+    }
+
     const imageFile = formData.get("image") as any;
     const ingredients: string[] = [];
     formData.forEach((value: FormDataEntryValue, key: string) => {

@@ -33,6 +33,16 @@ export async function PUT(req: any, { params }: any) {
     const formData = await req.formData();
 
     const title = formData.get("title") as string | null;
+
+    const existingRecipe = await Recipe.findOne({ title });
+
+    if (existingRecipe) {
+      return NextResponse.json(
+        { error: "A recipe with this title already exists" },
+        { status: 400 }
+      );
+    }
+
     const imageFile = formData.get("image") as any | null;
     const ingredients: string[] = [];
     formData.forEach((value: FormDataEntryValue, key: string) => {
@@ -117,6 +127,36 @@ export async function PUT(req: any, { params }: any) {
         { status: 400 }
       );
     }
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: any, { params }: any) {
+  await connectDB();
+
+  try {
+    const id = params.id;
+    const recipe = await Recipe.findById(id);
+
+    if (!recipe) {
+      return NextResponse.json({ error: "Recipe not found" }, { status: 404 });
+    }
+
+    // Extract the public ID from the current image URL
+    const currentImageUrl = recipe.imageUrl;
+    const publicIdMatch = currentImageUrl.match(/\/v\d+\/(.+)\.\w+$/);
+    const publicId = publicIdMatch ? publicIdMatch[1] : null;
+
+    if (publicId) {
+      // Delete the current image from Cloudinary
+      await cloudinary.uploader.destroy(publicId, { invalidate: true });
+    }
+
+    await Recipe.findByIdAndDelete(id);
+
+    return NextResponse.json({ message: "Recipe deleted successfully" }, { status: 200 });
+  } catch (error) {
+    console.error("Error deleting recipe:", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

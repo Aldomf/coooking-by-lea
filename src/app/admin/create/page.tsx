@@ -1,10 +1,11 @@
-import React from 'react';
-import CreateRecipeForm from '@/components/CreateRecipeForm';
+import React from "react";
+import CreateRecipeForm from "@/components/CreateRecipeForm";
+import Header from "@/components/Header";
 
 const Create = () => {
   return (
     <div>
-      <h1>Create Recipe</h1>
+      <Header />
       <CreateRecipeForm />
     </div>
   );

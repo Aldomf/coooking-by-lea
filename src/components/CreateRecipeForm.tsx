@@ -12,6 +12,7 @@ const CreateRecipeForm = () => {
   const [category, setCategory] = useState("");
   const [subcategory, setSubcategory] = useState("");
   const [isHealthy, setIsHealthy] = useState(false); // Add state for isHealthy
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleIngredientChange = (index: number, value: string) => {
     const newIngredients = [...ingredients];
@@ -39,9 +40,9 @@ const CreateRecipeForm = () => {
       formData.append("isHealthy", isHealthy.toString()); // Include isHealthy
 
       // Log the formData entries to see what is being appended
-    formData.forEach((value, key) => {
-      console.log(key, value);
-    });
+      formData.forEach((value, key) => {
+        console.log(key, value);
+      });
 
       const response = await fetch("/api/recipes", {
         method: "POST",
@@ -49,7 +50,10 @@ const CreateRecipeForm = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create recipe");
+        const errorData = await response.json();
+        setErrorMessage(errorData.message || "Failed to create recipe");
+        window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top on error
+        return;
       }
 
       router.push("/");
@@ -58,6 +62,8 @@ const CreateRecipeForm = () => {
       console.log("Recipe created successfully!");
     } catch (error) {
       console.error("Error creating recipe:", error);
+      setErrorMessage("An unexpected error occurred");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -69,8 +75,13 @@ const CreateRecipeForm = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto bg-white p-8 rounded shadow-lg">
+    <div className="max-w-4xl mx-auto bg-white p-8 rounded shadow-lg mb-10">
       <h2 className="text-2xl font-bold mb-4">Create Recipe</h2>
+      {errorMessage && (
+        <div className="bg-red-100 text-red-700 p-3 mb-4 rounded">
+          {errorMessage}
+        </div>
+      )}
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="mb-4">
           <label
@@ -207,7 +218,7 @@ const CreateRecipeForm = () => {
           type="submit"
           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
         >
-          Submit
+          Create
         </button>
       </form>
     </div>

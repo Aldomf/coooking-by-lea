@@ -69,6 +69,13 @@ export async function POST(req: any) {
     return NextResponse.json(savedRecipe, { status: 201 });
   } catch (error) {
     console.error("Error creating recipe:", error);
+    if (error instanceof Error && "code" in error && error.code === 11000) {
+      // Duplicate key error
+      return NextResponse.json(
+        { message: "A recipe with this title already exists." },
+        { status: 400 }
+      );
+    }
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

@@ -24,6 +24,10 @@ const CreateRecipeForm = () => {
     setIngredients([...ingredients, ""]);
   };
 
+  const removeIngredient = (index: number) => {
+    setIngredients(ingredients.filter((_, i) => i !== index));
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -127,14 +131,22 @@ const CreateRecipeForm = () => {
             Ingredients:
           </label>
           {ingredients.map((ingredient, index) => (
-            <input
-              key={index}
-              type="text"
-              value={ingredient}
-              onChange={(e) => handleIngredientChange(index, e.target.value)}
-              className="border border-gray-300 px-3 py-2 rounded-lg w-full mb-2"
-              required
-            />
+            <div key={index} className="flex items-center mb-2">
+              <input
+                type="text"
+                value={ingredient}
+                onChange={(e) => handleIngredientChange(index, e.target.value)}
+                className="border border-gray-300 px-3 py-2 rounded-lg w-full mr-2"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => removeIngredient(index)}
+                className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg"
+              >
+                Remove
+              </button>
+            </div>
           ))}
           <button
             type="button"

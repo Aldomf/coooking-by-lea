@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Header from "@/components/Header";
 import Image from "next/image";
+import Link from "next/link";
+import { BsPencilSquare } from "react-icons/bs";
+import { BsTrash3 } from "react-icons/bs";
 
 interface Recipe {
   _id: string;
@@ -87,9 +90,19 @@ const OneRecipe: React.FC = () => {
                 ))}
               </ol>
             </div>
-            <p className="text-gray-500">
-              Created at: {new Date(recipe.createdAt).toLocaleDateString()}
-            </p>
+            <div className="flex justify-between items-center">
+              <p className="text-gray-500">
+                Created at: {new Date(recipe.createdAt).toLocaleDateString()}
+              </p>
+              <div className="flex items-center justify-between w-28">
+                <Link href={`/admin/update/${recipeId}`} className="text-3xl text-blue-600 hover:text-blue-800">
+                  <BsPencilSquare />
+                </Link>
+                <Link href="">
+                  <BsTrash3 className="text-3xl text-red-600 hover:text-red-800"/>
+                </Link>
+              </div>
+            </div>
           </>
         ) : (
           <p>No recipe found</p>

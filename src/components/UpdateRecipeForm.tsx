@@ -17,6 +17,7 @@ const UpdateRecipeForm = () => {
   const [subcategory, setSubcategory] = useState("");
   const [isHealthy, setIsHealthy] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -58,6 +59,7 @@ const UpdateRecipeForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     try {
       const formData = new FormData();
@@ -85,6 +87,7 @@ const UpdateRecipeForm = () => {
           setErrorMessage("An unexpected error occurred");
         }
         window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top on error
+        setIsSubmitting(false);
         return;
       }
 
@@ -96,6 +99,7 @@ const UpdateRecipeForm = () => {
       console.error("Error updating recipe:", error);
       setErrorMessage("An unexpected error occurred");
       window.scrollTo({ top: 0, behavior: "smooth" });
+      setIsSubmitting(false);
     }
   };
 
@@ -256,8 +260,9 @@ const UpdateRecipeForm = () => {
         <button
           type="submit"
           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
+          disabled={isSubmitting}
         >
-          Update
+          {isSubmitting ? "Updating..." : "Update"}
         </button>
       </form>
     </div>

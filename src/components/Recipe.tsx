@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
+import Sidebar from "./SideBar";
+import { useAppContext } from "@/context/AppContext";
 
 interface Recipe {
   _id: string;
@@ -15,33 +17,32 @@ interface Recipe {
 }
 
 const Recipe: React.FC = () => {
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const recipesPerPage = 32;
+  const {
+    selectedCategory,
+    selectedSubcategory,
+    recipes,
+    currentPage,
+    setCurrentPage,
+    recipesPerPage,
+  } = useAppContext();
 
   useEffect(() => {
-    const fetchRecipes = async () => {
-      try {
-        const res = await fetch("/api/recipes");
-        if (res.ok) {
-          const data = await res.json();
-          setRecipes(data);
-        } else {
-          throw new Error("Failed to fetch recipes");
-        }
-      } catch (error) {
-        console.error("Error fetching recipes:", error);
-      }
-    };
+    // Fetch recipes here if needed when context changes
+  }, [selectedCategory, selectedSubcategory]);
 
-    fetchRecipes();
-  }, []);
+  const filteredRecipes = recipes.filter((recipe) => {
+    if (selectedCategory) {
+      return recipe.category === selectedCategory;
+    } else if (selectedSubcategory) {
+      return recipe.subcategory === selectedSubcategory;
+    }
+    return true; // Show all recipes if no category or subcategory selected
+  });
 
   const indexOfLastRecipe = currentPage * recipesPerPage;
   const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
-  const currentRecipes = recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
-
-  const totalPages = Math.ceil(recipes.length / recipesPerPage);
+  const currentRecipes = filteredRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+  const totalPages = Math.ceil(filteredRecipes.length / recipesPerPage);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -98,7 +99,7 @@ const Recipe: React.FC = () => {
         onPageChange={handlePageChange}
         indexOfFirstRecipe={indexOfFirstRecipe}
         indexOfLastRecipe={indexOfLastRecipe}
-        totalRecipes={recipes.length}
+        totalRecipes={filteredRecipes.length}
       />
     </div>
   );

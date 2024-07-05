@@ -28,22 +28,23 @@ const Sidebar = () => {
         const res = await fetch("/api/recipes");
         if (res.ok) {
           const data: Recipe[] = await res.json();
-
+  
+          // Filter out null or undefined categories and subcategories
           const uniqueCategories = Array.from(
             new Set(
               data
                 .map((recipe) => recipe.category)
-                .filter((category) => category.trim().length > 0)
+                .filter((category) => category && category.trim().length > 0)
             )
           );
           const uniqueSubcategories = Array.from(
             new Set(
               data
                 .map((recipe) => recipe.subcategory)
-                .filter((subcategory) => subcategory.trim().length > 0)
+                .filter((subcategory) => subcategory && subcategory.trim().length > 0)
             )
           );
-
+  
           setCategories(uniqueCategories);
           setSubcategories(uniqueSubcategories);
         } else {
@@ -53,9 +54,11 @@ const Sidebar = () => {
         console.error("Error fetching recipes:", error);
       }
     };
-
+  
     fetchRecipes();
   }, []);
+  
+  
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {

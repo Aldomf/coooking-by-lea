@@ -13,7 +13,7 @@ export async function GET(req: any, { params }: any) {
   try {
     const { id } = params;
     const recipe = await Recipe.findById(id);
-    
+
     if (!recipe) {
       return NextResponse.json({ error: "Recipe not found" }, { status: 404 });
     }
@@ -34,7 +34,8 @@ export async function PUT(req: any, { params }: any) {
 
     const title = formData.get("title") as string | null;
 
-    const existingRecipe = await Recipe.findOne({ title });
+    // Check for existing recipe with the same title, but exclude the current recipe by ID
+    const existingRecipe = await Recipe.findOne({ title, _id: { $ne: id } });
 
     if (existingRecipe) {
       return NextResponse.json(
@@ -62,6 +63,7 @@ export async function PUT(req: any, { params }: any) {
     if (ingredients.length > 0) updatedFields.ingredients = ingredients;
     if (preparation) updatedFields.preparation = preparation;
     if (category) updatedFields.category = category;
+    updatedFields.subcategory = subcategory; // This will set subcategory to null or empty string if blank
     if (subcategory) updatedFields.subcategory = subcategory;
     if (formData.has("isHealthy")) updatedFields.isHealthy = isHealthy;
 
@@ -80,7 +82,7 @@ export async function PUT(req: any, { params }: any) {
       const publicIdMatch = currentImageUrl.match(/\/v\d+\/(.+)\.\w+$/);
       const publicId = publicIdMatch ? publicIdMatch[1] : null;
 
-      console.log(publicId)
+      console.log(publicId);
 
       if (publicId) {
         // Delete the current image from Cloudinary
@@ -108,13 +110,12 @@ export async function PUT(req: any, { params }: any) {
       updatedFields.imageUrl = response.secure_url;
     }
 
-    const updatedRecipe = await Recipe.findByIdAndUpdate(id, updatedFields, { new: true });
+    const updatedRecipe = await Recipe.findByIdAndUpdate(id, updatedFields, {
+      new: true,
+    });
 
     if (!updatedRecipe) {
-      return NextResponse.json(
-        { error: "Recipe not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Recipe not found" }, { status: 404 });
     }
 
     return NextResponse.json(updatedRecipe, { status: 200 });
@@ -154,7 +155,10 @@ export async function DELETE(req: any, { params }: any) {
 
     await Recipe.findByIdAndDelete(id);
 
-    return NextResponse.json({ message: "Recipe deleted successfully" }, { status: 200 });
+    return NextResponse.json(
+      { message: "Recipe deleted successfully" },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error deleting recipe:", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });

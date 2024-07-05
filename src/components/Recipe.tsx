@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
+import Sidebar from "./SideBar";
 import { useAppContext } from "@/context/AppContext";
 
 interface Recipe {
@@ -32,8 +33,7 @@ const Recipe: React.FC = () => {
   const filteredRecipes = recipes.filter((recipe) => {
     if (selectedCategory) {
       return recipe.category === selectedCategory;
-    }
-    if (selectedSubcategory) {
+    } else if (selectedSubcategory) {
       return recipe.subcategory === selectedSubcategory;
     }
     return true; // Show all recipes if no category or subcategory selected

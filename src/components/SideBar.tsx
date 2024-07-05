@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { IoMenu } from "react-icons/io5";
 import { useAppContext } from "@/context/AppContext";
+import { useRouter } from "next/navigation";
 
 interface Recipe {
   _id: string;
@@ -14,9 +15,12 @@ interface Recipe {
 }
 
 const Sidebar = () => {
-  const { isSidebarOpen, toggleSidebar, selectCategory, selectSubcategory } = useAppContext();
+  const { isSidebarOpen, toggleSidebar, selectCategory, selectSubcategory } =
+    useAppContext();
   const [categories, setCategories] = useState<string[]>([]);
   const [subcategories, setSubcategories] = useState<string[]>([]);
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -26,10 +30,18 @@ const Sidebar = () => {
           const data: Recipe[] = await res.json();
 
           const uniqueCategories = Array.from(
-            new Set(data.map((recipe) => recipe.category).filter(category => category.trim().length > 0))
+            new Set(
+              data
+                .map((recipe) => recipe.category)
+                .filter((category) => category.trim().length > 0)
+            )
           );
           const uniqueSubcategories = Array.from(
-            new Set(data.map((recipe) => recipe.subcategory).filter(subcategory => subcategory.trim().length > 0))
+            new Set(
+              data
+                .map((recipe) => recipe.subcategory)
+                .filter((subcategory) => subcategory.trim().length > 0)
+            )
           );
 
           setCategories(uniqueCategories);
@@ -67,11 +79,26 @@ const Sidebar = () => {
   const handleCategoryClick = (category: string) => {
     selectCategory(category);
     toggleSidebar();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    router.push("/");
+    router.refresh();
   };
 
   const handleSubcategoryClick = (subcategory: string) => {
     selectSubcategory(subcategory);
     toggleSidebar();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    router.push("/");
+    router.refresh();
+  };
+
+  const resetFilters = () => {
+    selectCategory(null);
+    selectSubcategory(null);
+    toggleSidebar();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    router.push("/");
+    router.refresh();
   };
 
   return (
@@ -134,6 +161,14 @@ const Sidebar = () => {
                   ))}
                 </ul>
               </div>
+            </div>
+            <div className="flex flex-col items-center mt-6">
+              <button
+                onClick={resetFilters}
+                className="px-4 py-2 bg-red-500 text-white rounded-md"
+              >
+                Réinitialiser les filtres
+              </button>
             </div>
           </div>
         </div>

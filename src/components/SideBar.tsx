@@ -15,7 +15,7 @@ interface Recipe {
 }
 
 const Sidebar = () => {
-  const { isSidebarOpen, toggleSidebar, selectCategory, selectSubcategory } =
+  const { isSidebarOpen, toggleSidebar, selectCategory, selectSubcategory, setSelectedCategoryMarked, setSelectedSubcategoryMarked, selectedCategoryMarked, selectedSubcategoryMarked } =
     useAppContext();
   const [categories, setCategories] = useState<string[]>([]);
   const [subcategories, setSubcategories] = useState<string[]>([]);
@@ -80,6 +80,8 @@ const Sidebar = () => {
   }, [isSidebarOpen, toggleSidebar]);
 
   const handleCategoryClick = (category: string) => {
+    setSelectedCategoryMarked(category);
+    setSelectedSubcategoryMarked(null); // Reset subcategory when a new category is selected
     selectCategory(category);
     toggleSidebar();
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -88,6 +90,8 @@ const Sidebar = () => {
   };
 
   const handleSubcategoryClick = (subcategory: string) => {
+    setSelectedCategoryMarked(null)
+    setSelectedSubcategoryMarked(subcategory);
     selectSubcategory(subcategory);
     toggleSidebar();
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -96,6 +100,8 @@ const Sidebar = () => {
   };
 
   const resetFilters = () => {
+    setSelectedCategoryMarked(null);
+    setSelectedSubcategoryMarked(null);
     selectCategory(null);
     selectSubcategory(null);
     toggleSidebar();
@@ -141,7 +147,9 @@ const Sidebar = () => {
                     <li
                       key={category}
                       onClick={() => handleCategoryClick(category)}
-                      className="cursor-pointer hover:underline"
+                      className={`cursor-pointer hover:underline ${
+                        selectedCategoryMarked === category ? "text-blue-500" : ""
+                      }`}
                     >
                       {category}
                     </li>
@@ -157,7 +165,9 @@ const Sidebar = () => {
                     <li
                       key={subcategory}
                       onClick={() => handleSubcategoryClick(subcategory)}
-                      className="cursor-pointer hover:underline text-center"
+                      className={`cursor-pointer hover:underline text-center ${
+                        selectedSubcategoryMarked === subcategory ? "text-blue-500" : ""
+                      }`}
                     >
                       {subcategory}
                     </li>

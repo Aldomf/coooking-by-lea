@@ -22,6 +22,10 @@ interface AppContextProps {
   currentPage: number;
   setCurrentPage: (page: number) => void;
   recipesPerPage: number;
+  selectedCategoryMarked: string | null;
+  setSelectedCategoryMarked: (category: string | null) => void;
+  selectedSubcategoryMarked: string | null;
+  setSelectedSubcategoryMarked: (subcategory: string | null) => void;
 }
 
 const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -33,6 +37,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const recipesPerPage = 32;
+
+  const [selectedCategoryMarked, setSelectedCategoryMarked] = useState<string | null>(null);
+  const [selectedSubcategoryMarked, setSelectedSubcategoryMarked] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -79,6 +86,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         currentPage,
         setCurrentPage,
         recipesPerPage,
+        selectedCategoryMarked,
+        setSelectedCategoryMarked,
+        selectedSubcategoryMarked,
+        setSelectedSubcategoryMarked,
       }}
     >
       {children}

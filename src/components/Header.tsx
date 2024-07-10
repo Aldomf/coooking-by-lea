@@ -1,9 +1,9 @@
 "use client";
-import { IoSearch } from "react-icons/io5";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 import Sidebar from "./SideBar";
+import SearchBar from "./SearchBar"
 import { useAppContext } from "@/context/AppContext";
 
 const Header: React.FC = () => {
@@ -15,9 +15,8 @@ const Header: React.FC = () => {
           <div className="flex items-center">
             <Sidebar />
           </div>
-          <Link href="/admin/create">Créer recette</Link>
           <div className="flex items-center lg:order-2">
-            <IoSearch className="text-4xl" />
+            <SearchBar/>
           </div>
           <div
             className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1"

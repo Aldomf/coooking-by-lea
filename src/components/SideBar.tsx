@@ -140,6 +140,7 @@ const Sidebar = () => {
               </button>
             </div>
             <div className="flex flex-col items-center mt-6">
+            <Link href="/admin/create" className="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md mb-2">Créer recette</Link>
               <h2 className="text-2xl">Catégories</h2>
               <div className="mt-4">
                 <ul>
@@ -178,7 +179,7 @@ const Sidebar = () => {
             <div className="flex flex-col items-center mt-6">
               <button
                 onClick={resetFilters}
-                className="px-4 py-2 bg-red-500 text-white rounded-md"
+                className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded-md"
               >
                 Réinitialiser les filtres
               </button>

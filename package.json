@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.1.4",
+    "classnames": "^2.5.1",
     "cloudinary": "^2.2.0",
     "dotenv": "^16.4.5",
     "formidable": "^3.5.1",

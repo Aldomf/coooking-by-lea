@@ -26,6 +26,9 @@ interface AppContextProps {
   setSelectedCategoryMarked: (category: string | null) => void;
   selectedSubcategoryMarked: string | null;
   setSelectedSubcategoryMarked: (subcategory: string | null) => void;
+  filterRecipes: (query: string) => Recipe[];
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
 }
 
 const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -37,9 +40,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const recipesPerPage = 32;
-
   const [selectedCategoryMarked, setSelectedCategoryMarked] = useState<string | null>(null);
   const [selectedSubcategoryMarked, setSelectedSubcategoryMarked] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -73,6 +76,11 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     setSelectedCategory(null);
   };
 
+  // Filter recipes based on the search query
+  const filterRecipes = (query: string): Recipe[] => {
+    return recipes.filter(recipe => recipe.title.toLowerCase().includes(query.toLowerCase()));
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -90,6 +98,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         setSelectedCategoryMarked,
         selectedSubcategoryMarked,
         setSelectedSubcategoryMarked,
+        filterRecipes,
+        searchQuery,
+        setSearchQuery,
       }}
     >
       {children}

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import Sidebar from "./SideBar";
 import { useAppContext } from "@/context/AppContext";
+import SearchBar from "./SearchBar"; // Adjust the path as necessary
 
 interface Recipe {
   _id: string;
@@ -24,13 +25,20 @@ const Recipe: React.FC = () => {
     currentPage,
     setCurrentPage,
     recipesPerPage,
+    filterRecipes,
+    searchQuery,
+    setSelectedCategoryMarked,
+    setSelectedSubcategoryMarked,
+    selectCategory,
+    selectSubcategory,
+    toggleSidebar,
   } = useAppContext();
 
   useEffect(() => {
     // Fetch recipes here if needed when context changes
   }, [selectedCategory, selectedSubcategory]);
 
-  const filteredRecipes = recipes.filter((recipe) => {
+  const filteredRecipes = filterRecipes(searchQuery).filter((recipe) => {
     if (selectedCategory) {
       return recipe.category === selectedCategory;
     } else if (selectedSubcategory) {
@@ -41,7 +49,10 @@ const Recipe: React.FC = () => {
 
   const indexOfLastRecipe = currentPage * recipesPerPage;
   const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
-  const currentRecipes = filteredRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+  const currentRecipes = filteredRecipes.slice(
+    indexOfFirstRecipe,
+    indexOfLastRecipe
+  );
   const totalPages = Math.ceil(filteredRecipes.length / recipesPerPage);
 
   const handlePageChange = (pageNumber: number) => {
@@ -49,8 +60,25 @@ const Recipe: React.FC = () => {
     window.scrollTo(0, 0); // Scroll to top on page change
   };
 
+  const resetFilters = () => {
+    setSelectedCategoryMarked(null);
+    setSelectedSubcategoryMarked(null);
+    selectCategory(null);
+    selectSubcategory(null);
+  };
+
   return (
     <div className="flex flex-col items-center">
+      {(selectedCategory || selectedSubcategory) && (
+        <div className="flex flex-col items-center mt-2">
+          <button
+            onClick={resetFilters}
+            className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded-md mb-4"
+          >
+            Réinitialiser les filtres
+          </button>
+        </div>
+      )}
       <div className="flex flex-wrap justify-center">
         {currentRecipes.map((recipe) => (
           <Link
@@ -146,8 +174,11 @@ const Pagination = ({
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
           <p className="text-sm text-gray-700 mr-2">
-            Showing <span className="font-medium">{indexOfFirstRecipe + 1}</span>{" "}
-            to <span className="font-medium">{Math.min(indexOfLastRecipe, totalRecipes)}</span>{" "}
+            Showing{" "}
+            <span className="font-medium">{indexOfFirstRecipe + 1}</span> to{" "}
+            <span className="font-medium">
+              {Math.min(indexOfLastRecipe, totalRecipes)}
+            </span>{" "}
             of <span className="font-medium">{totalRecipes}</span> results
           </p>
         </div>

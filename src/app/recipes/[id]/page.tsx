@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { BsPencilSquare } from "react-icons/bs";
 import { BsTrash3 } from "react-icons/bs";
+import { useAppContext } from "@/context/AppContext";
 
 interface Recipe {
   _id: string;
@@ -26,6 +27,12 @@ const OneRecipe: React.FC = () => {
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const { setSearchQuery } = useAppContext();
+
+  useEffect(() => {
+    setSearchQuery("");
+  }, []);
 
   const deleteRecipe = async (recipeId: string) => {
     try {

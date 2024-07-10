@@ -31,12 +31,30 @@ const Recipe: React.FC = () => {
     setSelectedSubcategoryMarked,
     selectCategory,
     selectSubcategory,
-    toggleSidebar,
+    setRecipes
   } = useAppContext();
 
   useEffect(() => {
     // Fetch recipes here if needed when context changes
   }, [selectedCategory, selectedSubcategory]);
+
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      try {
+        const res = await fetch("/api/recipes");
+        if (res.ok) {
+          const data = await res.json();
+          setRecipes(data);
+        } else {
+          throw new Error("Failed to fetch recipes");
+        }
+      } catch (error) {
+        console.error("Error fetching recipes:", error);
+      }
+    };
+
+    fetchRecipes();
+  }, []);
 
   const filteredRecipes = filterRecipes(searchQuery).filter((recipe) => {
     if (selectedCategory) {

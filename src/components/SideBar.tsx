@@ -15,8 +15,16 @@ interface Recipe {
 }
 
 const Sidebar = () => {
-  const { isSidebarOpen, toggleSidebar, selectCategory, selectSubcategory, setSelectedCategoryMarked, setSelectedSubcategoryMarked, selectedCategoryMarked, selectedSubcategoryMarked } =
-    useAppContext();
+  const {
+    isSidebarOpen,
+    toggleSidebar,
+    selectCategory,
+    selectSubcategory,
+    setSelectedCategoryMarked,
+    setSelectedSubcategoryMarked,
+    selectedCategoryMarked,
+    selectedSubcategoryMarked,
+  } = useAppContext();
   const [categories, setCategories] = useState<string[]>([]);
   const [subcategories, setSubcategories] = useState<string[]>([]);
 
@@ -28,7 +36,7 @@ const Sidebar = () => {
         const res = await fetch("/api/recipes");
         if (res.ok) {
           const data: Recipe[] = await res.json();
-  
+
           // Filter out null or undefined categories and subcategories
           const uniqueCategories = Array.from(
             new Set(
@@ -41,10 +49,12 @@ const Sidebar = () => {
             new Set(
               data
                 .map((recipe) => recipe.subcategory)
-                .filter((subcategory) => subcategory && subcategory.trim().length > 0)
+                .filter(
+                  (subcategory) => subcategory && subcategory.trim().length > 0
+                )
             )
           );
-  
+
           setCategories(uniqueCategories);
           setSubcategories(uniqueSubcategories);
         } else {
@@ -54,11 +64,9 @@ const Sidebar = () => {
         console.error("Error fetching recipes:", error);
       }
     };
-  
+
     fetchRecipes();
   }, []);
-  
-  
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -90,7 +98,7 @@ const Sidebar = () => {
   };
 
   const handleSubcategoryClick = (subcategory: string) => {
-    setSelectedCategoryMarked(null)
+    setSelectedCategoryMarked(null);
     setSelectedSubcategoryMarked(subcategory);
     selectSubcategory(subcategory);
     toggleSidebar();
@@ -140,7 +148,13 @@ const Sidebar = () => {
               </button>
             </div>
             <div className="flex flex-col items-center mt-6">
-            <Link href="/admin/create" className="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md mb-2">Créer recette</Link>
+              <Link
+                href="/admin/create"
+                className="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md mb-2"
+                onClick={() => toggleSidebar()}
+              >
+                Créer recette
+              </Link>
               <h2 className="text-2xl">Catégories</h2>
               <div className="mt-4">
                 <ul>
@@ -149,7 +163,9 @@ const Sidebar = () => {
                       key={category}
                       onClick={() => handleCategoryClick(category)}
                       className={`cursor-pointer hover:underline ${
-                        selectedCategoryMarked === category ? "text-blue-500" : ""
+                        selectedCategoryMarked === category
+                          ? "text-blue-500"
+                          : ""
                       }`}
                     >
                       {category}
@@ -167,7 +183,9 @@ const Sidebar = () => {
                       key={subcategory}
                       onClick={() => handleSubcategoryClick(subcategory)}
                       className={`cursor-pointer hover:underline text-center ${
-                        selectedSubcategoryMarked === subcategory ? "text-blue-500" : ""
+                        selectedSubcategoryMarked === subcategory
+                          ? "text-blue-500"
+                          : ""
                       }`}
                     >
                       {subcategory}

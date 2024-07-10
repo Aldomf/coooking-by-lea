@@ -19,6 +19,7 @@ interface AppContextProps {
   selectedSubcategory: string | null;
   selectSubcategory: (subcategory: string | null) => void;
   recipes: Recipe[];
+  setRecipes: React.Dispatch<React.SetStateAction<Recipe[]>>;
   currentPage: number;
   setCurrentPage: (page: number) => void;
   recipesPerPage: number;
@@ -91,6 +92,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         selectedSubcategory,
         selectSubcategory,
         recipes,
+        setRecipes,
         currentPage,
         setCurrentPage,
         recipesPerPage,

@@ -90,6 +90,13 @@ const Recipe: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center">
+      {selectedCategory || selectedSubcategory ? (
+        <h2 className="text-5xl mb-4">
+          {selectedCategory || selectedSubcategory}
+        </h2>
+      ) : (
+        <h2 className="text-5xl mb-4">Toutes les Recettes</h2>
+      )}
       {(selectedCategory || selectedSubcategory) && (
         <div className="flex flex-col items-center mt-2">
           <button

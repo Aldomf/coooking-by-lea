@@ -3,10 +3,9 @@ import { AppProvider } from "@/context/AppContext";
 function Providers({ children }: { children: React.ReactNode }) {
   return (
     <AppProvider>
-      {children}
+      <div className="playwrite-cu">{children}</div>
     </AppProvider>
   );
 }
 
 export default Providers;
-

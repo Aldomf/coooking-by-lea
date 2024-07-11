@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React, { useEffect } from "react";
+import React from "react";
 import Sidebar from "./SideBar";
 import SearchBar from "./SearchBar";
 import { useAppContext } from "@/context/AppContext";

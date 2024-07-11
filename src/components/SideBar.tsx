@@ -24,6 +24,8 @@ const Sidebar = () => {
     setSelectedSubcategoryMarked,
     selectedCategoryMarked,
     selectedSubcategoryMarked,
+    selectedCategory,
+    selectedSubcategory,
   } = useAppContext();
   const [categories, setCategories] = useState<string[]>([]);
   const [subcategories, setSubcategories] = useState<string[]>([]);
@@ -155,7 +157,7 @@ const Sidebar = () => {
               >
                 Créer recette
               </Link>
-              <h2 className="text-2xl">Catégories</h2>
+              <h2 className="text-2xl underline">Catégories</h2>
               <div className="mt-4">
                 <ul>
                   {categories.map((category) => (
@@ -174,34 +176,38 @@ const Sidebar = () => {
                 </ul>
               </div>
             </div>
-            <div className="flex flex-col items-center mt-6">
-              <h2 className="text-2xl">Sous-catégories</h2>
-              <div className="mt-4">
+            <div className="flex flex-col items-center mt-6 mb-4">
+              <h2 className="text-2xl underline">Sous-catégories</h2>
+              <div className="mt-4 text-gray-600">
                 <ul className="grid grid-cols-1 gap-2 lg:grid-cols-2">
-                  {subcategories.map((subcategory) => (
-                    <li
-                      key={subcategory}
-                      onClick={() => handleSubcategoryClick(subcategory)}
-                      className={`cursor-pointer hover:underline text-center ${
-                        selectedSubcategoryMarked === subcategory
-                          ? "text-blue-500"
-                          : ""
-                      }`}
-                    >
-                      {subcategory}
-                    </li>
-                  ))}
+                  {subcategories
+                    .sort((a, b) => a.localeCompare(b)) // Sort subcategories alphabetically
+                    .map((subcategory) => (
+                      <li
+                        key={subcategory}
+                        onClick={() => handleSubcategoryClick(subcategory)}
+                        className={`cursor-pointer hover:underline text-center ${
+                          selectedSubcategoryMarked === subcategory
+                            ? "text-blue-500"
+                            : ""
+                        }`}
+                      >
+                        {subcategory}
+                      </li>
+                    ))}
                 </ul>
               </div>
             </div>
-            <div className="flex flex-col items-center mt-6">
-              <button
-                onClick={resetFilters}
-                className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded-md mb-4"
-              >
-                Réinitialiser les filtres
-              </button>
-            </div>
+            {(selectedCategory || selectedSubcategory) && (
+              <div className="flex flex-col items-center mt-6">
+                <button
+                  onClick={resetFilters}
+                  className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded-md mb-4"
+                >
+                  Réinitialiser les filtres
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

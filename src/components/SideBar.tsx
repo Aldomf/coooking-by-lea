@@ -11,6 +11,7 @@ interface Recipe {
   preparation: string;
   category: string;
   subcategory: string;
+  isHealthy: boolean;
   createdAt: string;
 }
 
@@ -26,6 +27,10 @@ const Sidebar = () => {
     selectedSubcategoryMarked,
     selectedCategory,
     selectedSubcategory,
+    setIsHealthy,
+    isHealthy,
+    selectHealthy,
+    selectedHealthy,
   } = useAppContext();
   const [categories, setCategories] = useState<string[]>([]);
   const [subcategories, setSubcategories] = useState<string[]>([]);
@@ -109,11 +114,22 @@ const Sidebar = () => {
     router.refresh();
   };
 
+  const handleHealthyClick = () => {
+    setSelectedCategoryMarked(null);
+    setSelectedSubcategoryMarked(null);
+    selectHealthy(true);
+    toggleSidebar();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    router.push("/");
+    router.refresh();
+  };
+
   const resetFilters = () => {
     setSelectedCategoryMarked(null);
     setSelectedSubcategoryMarked(null);
     selectCategory(null);
     selectSubcategory(null);
+    selectHealthy(null);
     toggleSidebar();
     window.scrollTo({ top: 0, behavior: "smooth" });
     router.push("/");
@@ -173,6 +189,14 @@ const Sidebar = () => {
                       {category}
                     </li>
                   ))}
+                  <li
+                    onClick={() => handleHealthyClick()}
+                    className={`cursor-pointer hover:underline ${
+                      selectedHealthy ? "text-blue-500" : ""
+                    }`}
+                  >
+                    Recettes saines
+                  </li>
                 </ul>
               </div>
             </div>
@@ -198,7 +222,7 @@ const Sidebar = () => {
                 </ul>
               </div>
             </div>
-            {(selectedCategory || selectedSubcategory) && (
+            {(selectedCategory || selectedSubcategory || selectedHealthy) && (
               <div className="flex flex-col items-center mt-6">
                 <button
                   onClick={resetFilters}

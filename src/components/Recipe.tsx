@@ -12,6 +12,7 @@ interface Recipe {
   preparation: string;
   category: string;
   subcategory: string;
+  isHealthy: false;
   createdAt: string;
 }
 
@@ -30,6 +31,8 @@ const Recipe: React.FC = () => {
     selectCategory,
     selectSubcategory,
     setRecipes,
+    selectedHealthy,
+    selectHealthy
   } = useAppContext();
 
   const [loading, setLoading] = useState(true);
@@ -64,6 +67,10 @@ const Recipe: React.FC = () => {
       return recipe.category === selectedCategory;
     } else if (selectedSubcategory) {
       return recipe.subcategory === selectedSubcategory;
+    } else if (selectedHealthy === true) {
+      console.log("hi");
+      console.log(selectedHealthy);
+      return recipe.isHealthy === true;
     }
     return true; // Show all recipes if no category or subcategory selected
   });
@@ -86,6 +93,7 @@ const Recipe: React.FC = () => {
     setSelectedSubcategoryMarked(null);
     selectCategory(null);
     selectSubcategory(null);
+    selectHealthy(null);
   };
 
   return (
@@ -94,10 +102,12 @@ const Recipe: React.FC = () => {
         <h2 className="text-5xl mb-4">
           {selectedCategory || selectedSubcategory}
         </h2>
+      ) : selectedHealthy ? (
+        <h2 className="text-5xl mb-4">Recettes saines</h2>
       ) : (
         <h2 className="text-5xl mb-4">Toutes les Recettes</h2>
       )}
-      {(selectedCategory || selectedSubcategory) && (
+      {(selectedCategory || selectedSubcategory || selectedHealthy) && (
         <div className="flex flex-col items-center mt-2">
           <button
             onClick={resetFilters}

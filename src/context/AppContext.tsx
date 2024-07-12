@@ -8,6 +8,7 @@ interface Recipe {
   preparation: string;
   category: string;
   subcategory: string;
+  isHealthy: boolean;
   createdAt: string;
 }
 
@@ -17,7 +18,9 @@ interface AppContextProps {
   selectedCategory: string | null;
   selectCategory: (category: string | null) => void;
   selectedSubcategory: string | null;
+  selectedHealthy: boolean | null;
   selectSubcategory: (subcategory: string | null) => void;
+  selectHealthy: (healthy: boolean | null) => void;
   recipes: Recipe[];
   setRecipes: React.Dispatch<React.SetStateAction<Recipe[]>>;
   currentPage: number;
@@ -30,6 +33,8 @@ interface AppContextProps {
   filterRecipes: (query: string) => Recipe[];
   searchQuery: string;
   setSearchQuery: (query: string) => void;
+  isHealthy: boolean;
+  setIsHealthy: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -38,12 +43,15 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
+  const [selectedHealthy, setSelectedHealthy] = useState<boolean | null>(null);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const recipesPerPage = 32;
   const [selectedCategoryMarked, setSelectedCategoryMarked] = useState<string | null>(null);
   const [selectedSubcategoryMarked, setSelectedSubcategoryMarked] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isHealthy, setIsHealthy] = useState(false);
+  // const [recipesHealthy, setRecipesHealthy] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -52,6 +60,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         if (res.ok) {
           const data = await res.json();
           setRecipes(data);
+          const healthyRecipes = data.filter((recipe: Recipe) => recipe.isHealthy);
+          console.log(healthyRecipes)
+          // setIsHealthy(healthyRecipes)
+          setSelectedHealthy(healthyRecipes)
         } else {
           throw new Error("Failed to fetch recipes");
         }
@@ -70,10 +82,18 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const selectCategory = (category: string | null) => {
     setSelectedCategory(category);
     setSelectedSubcategory(null);
+    setSelectedHealthy(null)
   };
 
   const selectSubcategory = (subcategory: string | null) => {
     setSelectedSubcategory(subcategory);
+    setSelectedCategory(null);
+    setSelectedHealthy(null)
+  };
+
+  const selectHealthy = (healthy: boolean | null) => {
+    setSelectedHealthy(healthy);
+    setSelectedSubcategory(null);
     setSelectedCategory(null);
   };
 
@@ -103,6 +123,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         filterRecipes,
         searchQuery,
         setSearchQuery,
+        isHealthy,
+        setIsHealthy,
+        selectedHealthy,
+        selectHealthy
       }}
     >
       {children}

@@ -115,17 +115,19 @@ const UpdateRecipeForm = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto bg-white p-8 rounded shadow-lg mb-10">
-      <h2 className="text-2xl font-bold mb-4">Update Recipe</h2>
+    <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-8 rounded shadow-lg mb-10">
+      <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-100">
+        Update Recipe
+      </h2>
       {errorMessage && (
-        <div className="bg-red-100 text-red-700 p-3 mb-4 rounded">
+        <div className="bg-red-100 dark:bg-red-500 text-red-700 dark:text-red-100 p-3 mb-4 rounded">
           {errorMessage}
         </div>
       )}
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="mb-4">
           <label
-            className="block text-gray-700 text-sm font-bold mb-2"
+            className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
             htmlFor="title"
           >
             Title:
@@ -136,13 +138,13 @@ const UpdateRecipeForm = () => {
             name="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="border border-gray-300 px-3 py-2 rounded-lg w-full"
+            className="border border-gray-300 dark:border-gray-600 px-3 py-2 rounded-lg w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200"
           />
         </div>
 
         <div className="mb-4">
           <label
-            className="block text-gray-700 text-sm font-bold mb-2"
+            className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
             htmlFor="image"
           >
             Image:
@@ -153,13 +155,13 @@ const UpdateRecipeForm = () => {
             name="image"
             accept="image/*"
             onChange={handleImageChange}
-            className="border border-gray-300 px-3 py-2 rounded-lg w-full"
+            className="border border-gray-300 dark:border-gray-600 px-3 py-2 rounded-lg w-full text-gray-800 dark:text-gray-200"
           />
         </div>
 
         <div className="mb-4">
           <label
-            className="block text-gray-700 text-sm font-bold mb-2"
+            className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
             htmlFor="ingredients"
           >
             Ingredients:
@@ -170,7 +172,7 @@ const UpdateRecipeForm = () => {
                 type="text"
                 value={ingredient}
                 onChange={(e) => handleIngredientChange(index, e.target.value)}
-                className="border border-gray-300 px-3 py-2 rounded-lg w-full mr-2"
+                className="border border-gray-300 dark:border-gray-600 px-3 py-2 rounded-lg w-full mr-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200"
               />
               <button
                 type="button"
@@ -192,7 +194,7 @@ const UpdateRecipeForm = () => {
 
         <div className="mb-4">
           <label
-            className="block text-gray-700 text-sm font-bold mb-2"
+            className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
             htmlFor="preparation"
           >
             Preparation:
@@ -202,14 +204,14 @@ const UpdateRecipeForm = () => {
             name="preparation"
             value={preparation}
             onChange={(e) => setPreparation(e.target.value)}
-            className="border border-gray-300 px-3 py-2 rounded-lg w-full"
+            className="border border-gray-300 dark:border-gray-600 px-3 py-2 rounded-lg w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200"
             rows={15}
           ></textarea>
         </div>
 
         <div className="mb-4">
           <label
-            className="block text-gray-700 text-sm font-bold mb-2"
+            className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
             htmlFor="category"
           >
             Category:
@@ -220,13 +222,13 @@ const UpdateRecipeForm = () => {
             name="category"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="border border-gray-300 px-3 py-2 rounded-lg w-full"
+            className="border border-gray-300 dark:border-gray-600 px-3 py-2 rounded-lg w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200"
           />
         </div>
 
         <div className="mb-4">
           <label
-            className="block text-gray-700 text-sm font-bold mb-2"
+            className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
             htmlFor="subcategory"
           >
             Subcategory:
@@ -237,12 +239,12 @@ const UpdateRecipeForm = () => {
             name="subcategory"
             value={subcategory}
             onChange={(e) => setSubcategory(e.target.value)}
-            className="border border-gray-300 px-3 py-2 rounded-lg w-full"
+            className="border border-gray-300 dark:border-gray-600 px-3 py-2 rounded-lg w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200"
           />
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
+          <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2">
             Is Healthy:
           </label>
           <div className="flex items-center">
@@ -253,7 +255,9 @@ const UpdateRecipeForm = () => {
               onChange={(e) => setIsHealthy(e.target.checked)}
               className="mr-2 leading-tight"
             />
-            <span className="text-sm">Check if the recipe is healthy</span>
+            <span className="text-sm text-gray-700 dark:text-gray-200">
+              Check if the recipe is healthy
+            </span>
           </div>
         </div>
 

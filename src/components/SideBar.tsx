@@ -139,18 +139,18 @@ const Sidebar = () => {
   return (
     <div className="bg-gray-100">
       <div
-        className={`fixed z-10 top-0 left-0 h-screen bg-white w-full lg:w-1/3 overflow-y-auto transition-transform ${
+        className={`fixed z-10 top-0 left-0 h-screen bg-white dark:bg-gray-800 w-full lg:w-1/3 overflow-y-auto transition-transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } ease-in-out duration-300`}
         id="sidebar"
       >
         <div className="h-full flex flex-col justify-between">
           <div>
-            <div className="flex justify-between items-center border-b-2 p-4">
-              <h2 className="text-2xl">Filtrer par</h2>
+            <div className="flex justify-between items-center border-b-2 p-4 dark:border-gray-700">
+              <h2 className="text-2xl dark:text-gray-200">Filtrer par</h2>
               <button className="" onClick={toggleSidebar}>
                 <svg
-                  className="w-6 h-6"
+                  className="w-6 h-6 dark:text-gray-200"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -173,9 +173,11 @@ const Sidebar = () => {
               >
                 Créer recette
               </Link>
-              <h2 className="text-2xl underline">Catégories</h2>
+              <h2 className="text-2xl underline dark:text-gray-200">
+                Catégories
+              </h2>
               <div className="mt-4">
-                <ul>
+                <ul className="dark:text-gray-200">
                   {categories.map((category) => (
                     <li
                       key={category}
@@ -201,8 +203,10 @@ const Sidebar = () => {
               </div>
             </div>
             <div className="flex flex-col items-center mt-6 mb-4">
-              <h2 className="text-2xl underline">Sous-catégories</h2>
-              <div className="mt-4 text-gray-600">
+              <h2 className="text-2xl underline dark:text-gray-200">
+                Sous-catégories
+              </h2>
+              <div className="mt-4 text-gray-600 dark:text-gray-400">
                 <ul className="grid grid-cols-1 gap-2 lg:grid-cols-2">
                   {subcategories
                     .sort((a, b) => a.localeCompare(b)) // Sort subcategories alphabetically
@@ -222,7 +226,9 @@ const Sidebar = () => {
                 </ul>
               </div>
             </div>
-            {(selectedCategory || selectedSubcategory || selectedHealthy === true) && (
+            {(selectedCategory ||
+              selectedSubcategory ||
+              selectedHealthy === true) && (
               <div className="flex flex-col items-center mt-6">
                 <button
                   onClick={resetFilters}
@@ -237,11 +243,12 @@ const Sidebar = () => {
       </div>
 
       <div className="flex-1 flex flex-col overflow-hidden">
-        <div className="bg-white shadow">
+        <div className="bg-white shadow dark:bg-gray-900">
           <div className="container">
             <div className="flex justify-between items-center py-4">
               <IoMenu
-                className="text-4xl cursor-pointer"
+                size={30}
+                className="cursor-pointer dark:text-white"
                 id="open-sidebar"
                 onClick={toggleSidebar}
               />

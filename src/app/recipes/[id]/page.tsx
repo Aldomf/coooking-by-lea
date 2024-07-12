@@ -73,8 +73,10 @@ const OneRecipe: React.FC = () => {
     fetchRecipe();
   }, [recipeId]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading)
+    return <p className="text-gray-800 dark:text-gray-100">Loading...</p>;
+  if (error)
+    return <p className="text-red-600 dark:text-red-400">Error: {error}</p>;
 
   // Split preparation steps by the numbering pattern and handle potential inconsistencies
   const preparationSteps = recipe?.preparation
@@ -83,9 +85,8 @@ const OneRecipe: React.FC = () => {
     .map((step) => step.trim()); // Trim each step
 
   return (
-    <div>
-      <Header />
-      <div className="max-w-4xl mx-auto p-4 bg-white shadow-md rounded-lg mt-6 mb-10">
+    <div className="dark:bg-gray-600 py-10">
+      <div className="max-w-4xl mx-auto p-4 bg-white dark:bg-gray-800 shadow-md rounded-lg">
         {recipe ? (
           <>
             <Image
@@ -95,49 +96,58 @@ const OneRecipe: React.FC = () => {
               height={5000}
               className="w-full h-96 object-cover rounded-lg mb-4"
             />
-            <h2 className="text-4xl font-bold mb-2">{recipe.title}</h2>
-            <p className="text-lg font-semibold text-gray-700 mb-4">
+            <h2 className="text-4xl font-bold mb-2 dark:text-gray-200">
+              {recipe.title}
+            </h2>
+            <p className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">
               {recipe.category}
             </p>
             <div className="mb-4">
-              <h3 className="text-2xl font-semibold mb-2">Ingredients</h3>
+              <h3 className="text-2xl font-semibold mb-2 dark:text-gray-200">
+                Ingredients
+              </h3>
               <ul className="list-disc list-inside pl-4">
                 {recipe.ingredients.map((ingredient, index) => (
-                  <li key={index} className="text-gray-700">
+                  <li key={index} className="text-gray-700 dark:text-gray-300">
                     {ingredient}
                   </li>
                 ))}
               </ul>
             </div>
             <div className="mb-4">
-              <h3 className="text-2xl font-semibold mb-2">Preparation</h3>
+              <h3 className="text-2xl font-semibold mb-2 dark:text-gray-200">
+                Preparation
+              </h3>
               <ol className="list-decimal list-inside pl-4">
                 {preparationSteps?.map((step, index) => (
-                  <li key={index} className="text-gray-700 mb-2">
+                  <li
+                    key={index}
+                    className="text-gray-700 dark:text-gray-300 mb-2"
+                  >
                     {step}
                   </li>
                 ))}
               </ol>
             </div>
             <div className="flex justify-between items-center">
-              <p className="text-gray-500">
+              <p className="text-gray-500 dark:text-gray-400">
                 Created at: {new Date(recipe.createdAt).toLocaleDateString()}
               </p>
               <div className="flex items-center justify-between w-28">
                 <Link
                   href={`/admin/update/${recipeId}`}
-                  className="text-3xl text-blue-600 hover:text-blue-800"
+                  className="text-3xl text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-600"
                 >
                   <BsPencilSquare />
                 </Link>
                 <button onClick={() => deleteRecipe(recipeId)}>
-                  <BsTrash3 className="text-3xl text-red-600 hover:text-red-800" />
+                  <BsTrash3 className="text-3xl text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-600" />
                 </button>
               </div>
             </div>
           </>
         ) : (
-          <p>No recipe found</p>
+          <p className="dark:text-gray-200">No recipe found</p>
         )}
       </div>
     </div>

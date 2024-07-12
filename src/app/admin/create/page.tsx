@@ -1,11 +1,9 @@
 import React from "react";
 import CreateRecipeForm from "@/components/CreateRecipeForm";
-import Header from "@/components/Header";
 
 const Create = () => {
   return (
-    <div>
-      <Header />
+    <div className="py-10 dark:bg-gray-700">
       <CreateRecipeForm />
     </div>
   );

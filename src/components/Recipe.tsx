@@ -97,15 +97,15 @@ const Recipe: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center dark:bg-gray-700 py-10">
       {selectedCategory || selectedSubcategory ? (
-        <h2 className="text-5xl mb-4">
+        <h2 className="text-5xl mb-4 dark:text-white">
           {selectedCategory || selectedSubcategory}
         </h2>
       ) : selectedHealthy === true ? (
-        <h2 className="text-5xl mb-4">Recettes saines</h2>
+        <h2 className="text-5xl mb-4 dark:text-white">Recettes saines</h2>
       ) : (
-        <h2 className="text-5xl mb-4">Toutes les Recettes</h2>
+        <h2 className="text-5xl mb-4 dark:text-white">Toutes les Recettes</h2>
       )}
       {(selectedCategory ||
         selectedSubcategory ||
@@ -121,7 +121,7 @@ const Recipe: React.FC = () => {
       )}
       {loading ? (
         <div className="flex justify-center items-center">
-          <div className="text-2xl">Loading...</div>
+          <div className="text-2xl dark:text-white">Loading...</div>
           <svg
             aria-hidden="true"
             className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -147,7 +147,7 @@ const Recipe: React.FC = () => {
               href={`/recipes/${recipe._id}`}
               className="m-4 w-72"
             >
-              <div className="max-w-sm rounded-3xl overflow-hidden shadow-lg">
+              <div className="max-w-sm rounded-3xl overflow-hidden shadow-lg dark:shadow-gray-700">
                 <div className="relative">
                   <Image
                     className="w-full h-96"
@@ -158,22 +158,14 @@ const Recipe: React.FC = () => {
                   />
                   <div className="absolute inset-0 bg-black opacity-0 hover:opacity-30 transition-opacity duration-300" />
                 </div>
-                <div className="">
+                <div className="bg-white dark:bg-gray-800">
                   <div className="px-6 py-4">
-                    <div className="font-bold text-xl">{recipe.title}</div>
+                    <div className="font-bold text-xl text-gray-900 dark:text-gray-200">
+                      {recipe.title}
+                    </div>
                   </div>
-                  {/* <div className="px-6 pb-2">
-                    <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-                      {recipe.category}
-                    </span>
-                    {recipe.subcategory && (
-                      <span className="inline-block bg-gray-200 rounded-full mt-2 px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-                        {recipe.subcategory}
-                      </span>
-                    )}
-                  </div> */}
                   <div>
-                    <span className="flex justify-end rounded-full px-3 py-1 text-sm font-semibold text-gray-400">
+                    <span className="flex justify-end rounded-full px-3 py-1 text-sm font-semibold text-gray-400 dark:text-gray-500">
                       {new Date(recipe.createdAt).toLocaleDateString()}
                     </span>
                   </div>
@@ -216,26 +208,26 @@ const Pagination = ({
   }
 
   return (
-    <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 mt-4">
+    <div className="flex items-center justify-between border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-3 sm:px-6 mt-4">
       <div className="flex flex-1 justify-between sm:hidden">
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="relative inline-flex items-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
         >
           Previous
         </button>
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
         >
           Next
         </button>
       </div>
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
-          <p className="text-sm text-gray-700 mr-2">
+          <p className="text-sm text-gray-700 dark:text-gray-300 mr-2">
             Showing{" "}
             <span className="font-medium">{indexOfFirstRecipe + 1}</span> to{" "}
             <span className="font-medium">
@@ -252,7 +244,7 @@ const Pagination = ({
             <button
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+              className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 dark:text-gray-400 ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 focus:z-20 focus:outline-offset-0"
             >
               <span className="sr-only">Previous</span>
               <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
@@ -264,7 +256,7 @@ const Pagination = ({
                 className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${
                   currentPage === number
                     ? "bg-indigo-600 text-white"
-                    : "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                    : "text-gray-900 dark:text-gray-300 ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600"
                 } focus:z-20 focus:outline-offset-0`}
               >
                 {number}
@@ -273,7 +265,7 @@ const Pagination = ({
             <button
               onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+              className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 dark:text-gray-400 ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 focus:z-20 focus:outline-offset-0"
             >
               <span className="sr-only">Next</span>
               <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />

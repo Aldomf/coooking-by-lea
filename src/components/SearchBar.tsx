@@ -49,7 +49,7 @@ const SearchBar = ({ onSearchChange }: { onSearchChange: (query: string) => void
         className="p-2 text-gray-600"
         onClick={toggleInputVisibility}
       >
-        <IoSearch size={24} />
+        <IoSearch size={24} className='dark:text-white'/>
       </button>
     </div>
   );

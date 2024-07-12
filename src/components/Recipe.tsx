@@ -32,7 +32,7 @@ const Recipe: React.FC = () => {
     selectSubcategory,
     setRecipes,
     selectedHealthy,
-    selectHealthy
+    selectHealthy,
   } = useAppContext();
 
   const [loading, setLoading] = useState(true);
@@ -102,12 +102,14 @@ const Recipe: React.FC = () => {
         <h2 className="text-5xl mb-4">
           {selectedCategory || selectedSubcategory}
         </h2>
-      ) : selectedHealthy ? (
+      ) : selectedHealthy === true ? (
         <h2 className="text-5xl mb-4">Recettes saines</h2>
       ) : (
         <h2 className="text-5xl mb-4">Toutes les Recettes</h2>
       )}
-      {(selectedCategory || selectedSubcategory || selectedHealthy) && (
+      {(selectedCategory ||
+        selectedSubcategory ||
+        selectedHealthy === true) && (
         <div className="flex flex-col items-center mt-2">
           <button
             onClick={resetFilters}

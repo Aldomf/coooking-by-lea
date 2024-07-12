@@ -222,7 +222,7 @@ const Sidebar = () => {
                 </ul>
               </div>
             </div>
-            {(selectedCategory || selectedSubcategory || selectedHealthy) && (
+            {(selectedCategory || selectedSubcategory || selectedHealthy === true) && (
               <div className="flex flex-col items-center mt-6">
                 <button
                   onClick={resetFilters}

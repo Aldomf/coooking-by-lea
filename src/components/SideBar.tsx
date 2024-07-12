@@ -192,7 +192,7 @@ const Sidebar = () => {
                   <li
                     onClick={() => handleHealthyClick()}
                     className={`cursor-pointer hover:underline ${
-                      selectedHealthy ? "text-blue-500" : ""
+                      selectedHealthy === true ? "text-blue-500" : ""
                     }`}
                   >
                     Recettes saines

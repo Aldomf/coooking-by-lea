@@ -19,7 +19,7 @@ const Footer = () => {
               height={80}
             />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              Cooking by Lea
+              Cooking by Léa
             </span>
           </Link>
           <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
@@ -49,7 +49,7 @@ const Footer = () => {
         <span className="block text-sm text-gray-500 text-center dark:text-gray-400">
           © 2024{" "}
           <Link href="/" className="hover:underline">
-            Cooking by Lea
+            Cooking by Léa
           </Link>
           . Made with ❤️ by Aldo.
         </span>

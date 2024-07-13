@@ -24,7 +24,7 @@ const Header: React.FC = () => {
             href="/"
             className="text-[30px] border-[#482519] dark:border-gray-200 text-[#482519] dark:text-gray-200 border-t flex items-center lg:hidden"
           >
-            Cooking by Lea
+            Cooking by Léa
           </Link>
           <div className="hidden md:flex lg:items-center lg:order-2">
             <SearchBar onSearchChange={handleSearchChange} />
@@ -38,7 +38,7 @@ const Header: React.FC = () => {
               href="/"
               className="text-[46px] border-[#482519] dark:border-gray-200 text-[#482519] dark:text-gray-200 border-t-2 pt-2"
             >
-              Cooking by Lea
+              Cooking by Léa
             </Link>
           </div>
         </div>

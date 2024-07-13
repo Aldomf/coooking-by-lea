@@ -99,13 +99,13 @@ const Recipe: React.FC = () => {
   return (
     <div className="flex flex-col items-center dark:bg-gray-700 py-10">
       {selectedCategory || selectedSubcategory ? (
-        <h2 className="text-5xl mb-4 dark:text-white">
+        <h2 className="text-3xl text-center lg:text-5xl mb-4 dark:text-white">
           {selectedCategory || selectedSubcategory}
         </h2>
       ) : selectedHealthy === true ? (
-        <h2 className="text-5xl mb-4 dark:text-white">Recettes saines</h2>
+        <h2 className="text-3xl text-center lg:text-5xl mb-4 dark:text-white">Recettes saines</h2>
       ) : (
-        <h2 className="text-5xl mb-4 dark:text-white">Toutes les Recettes</h2>
+        <h2 className="text-3xl text-center lg:text-5xl mb-4 dark:text-white">Toutes les Recettes</h2>
       )}
       {(selectedCategory ||
         selectedSubcategory ||

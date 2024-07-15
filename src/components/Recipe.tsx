@@ -62,14 +62,17 @@ const Recipe: React.FC = () => {
     fetchRecipes();
   }, []);
 
+  // Reset current page to 1 when category or subcategory changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, selectedSubcategory, searchQuery, selectedHealthy]);
+
   const filteredRecipes = filterRecipes(searchQuery).filter((recipe) => {
     if (selectedCategory) {
       return recipe.category === selectedCategory;
     } else if (selectedSubcategory) {
       return recipe.subcategory === selectedSubcategory;
     } else if (selectedHealthy === true) {
-      console.log("hi");
-      console.log(selectedHealthy);
       return recipe.isHealthy === true;
     }
     return true; // Show all recipes if no category or subcategory selected

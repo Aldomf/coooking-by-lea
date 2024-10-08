@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { BsPencilSquare } from "react-icons/bs";
 import { BsTrash3 } from "react-icons/bs";
+import { FaArrowLeftLong } from "react-icons/fa6";
 import { useAppContext } from "@/context/AppContext";
 
 interface Recipe {
@@ -89,6 +90,8 @@ const OneRecipe: React.FC = () => {
       <div className="max-w-4xl mx-auto p-4 bg-white dark:bg-gray-800 shadow-md rounded-lg">
         {recipe ? (
           <>
+            <div className="relative">
+            <FaArrowLeftLong className="absolute top-4 left-4 text-white text-4xl cursor-pointer p-1 rounded-full border-2 bg-black bg-opacity-50 hover:bg-opacity-100 transition-all duration-300" />
             <Image
               src={recipe.imageUrl}
               alt={recipe.title}
@@ -96,6 +99,7 @@ const OneRecipe: React.FC = () => {
               height={5000}
               className="w-full h-96 object-cover rounded-lg mb-4"
             />
+            </div>
             <h2 className="text-4xl font-bold mb-2 dark:text-gray-200">
               {recipe.title}
             </h2>

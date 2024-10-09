@@ -67,6 +67,13 @@ const Recipe: React.FC = () => {
     setCurrentPage(1);
   }, [selectedCategory, selectedSubcategory, searchQuery, selectedHealthy]);
 
+  //!!
+  useEffect(() => {
+    const currentPageParam = new URLSearchParams(window.location.search).get("page");
+    setCurrentPage(currentPageParam ? parseInt(currentPageParam) : 1);
+  }, []);
+  
+
   const filteredRecipes = filterRecipes(searchQuery).filter((recipe) => {
     if (selectedCategory) {
       return recipe.category === selectedCategory;
@@ -147,7 +154,7 @@ const Recipe: React.FC = () => {
           {currentRecipes.map((recipe) => (
             <Link
               key={recipe._id}
-              href={`/recipes/${recipe._id}`}
+              href={`/recipes/${recipe._id}?page=${currentPage}`}
               className="m-4 w-72"
             >
               <div className="max-w-sm rounded-3xl overflow-hidden shadow-lg dark:shadow-gray-700">

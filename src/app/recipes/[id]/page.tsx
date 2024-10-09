@@ -25,6 +25,9 @@ const OneRecipe: React.FC = () => {
 
   const router = useRouter();
 
+  // Get the current page from query parameters
+  const currentPage = new URLSearchParams(window.location.search).get("page") || "1";
+
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -91,7 +94,7 @@ const OneRecipe: React.FC = () => {
         {recipe ? (
           <>
             <div className="relative">
-            <FaArrowLeftLong className="absolute top-4 left-4 text-white text-4xl cursor-pointer p-1 rounded-full border-2 bg-black bg-opacity-50 hover:bg-opacity-100 transition-all duration-300" />
+            <FaArrowLeftLong className="absolute top-4 left-4 text-white text-4xl cursor-pointer p-1 rounded-full border-2 bg-black bg-opacity-50 hover:bg-opacity-100 transition-all duration-300" onClick={() => router.push(`/?page=${currentPage}`)}/>
             <Image
               src={recipe.imageUrl}
               alt={recipe.title}

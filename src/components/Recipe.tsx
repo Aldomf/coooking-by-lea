@@ -67,7 +67,6 @@ const Recipe: React.FC = () => {
     setCurrentPage(1);
   }, [selectedCategory, selectedSubcategory, searchQuery, selectedHealthy]);
 
-  //!!
   useEffect(() => {
     const currentPageParam = new URLSearchParams(window.location.search).get("page");
     setCurrentPage(currentPageParam ? parseInt(currentPageParam) : 1);
